@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "PostEdit": "dotnet build",
+    "PreCommit": "dotnet test"
+  }
+}
