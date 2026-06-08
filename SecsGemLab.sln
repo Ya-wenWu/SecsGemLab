@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5CF4136B-6D3B-40B2-AE76-78987F544BC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecsGemLab.Console", "src\SecsGemLab.Console\SecsGemLab.Console.csproj", "{3E89BA75-6DD0-44ED-938E-292772A31AAF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{744851C1-58EF-43A2-87E4-AE074A66113A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecsGemLab.Tests", "tests\SecsGemLab.Tests\SecsGemLab.Tests.csproj", "{57BAA735-AD1C-44A2-A18A-4411AEB936B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E89BA75-6DD0-44ED-938E-292772A31AAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E89BA75-6DD0-44ED-938E-292772A31AAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E89BA75-6DD0-44ED-938E-292772A31AAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E89BA75-6DD0-44ED-938E-292772A31AAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3E89BA75-6DD0-44ED-938E-292772A31AAF} = {5CF4136B-6D3B-40B2-AE76-78987F544BC9}
+		{57BAA735-AD1C-44A2-A18A-4411AEB936B0} = {744851C1-58EF-43A2-87E4-AE074A66113A}
+	EndGlobalSection
+EndGlobal
