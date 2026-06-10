@@ -131,8 +131,8 @@ Provide a thorough code review following the checklist above."""
 def main():
     api_key = os.environ.get("GOOGLE_API_KEY")
     if not api_key:
-        print("❌ GOOGLE_API_KEY environment variable not set", file=sys.stderr)
-        sys.exit(1)
+        print("⚠️ GOOGLE_API_KEY not available (fork PR from external contributor). Skipping AI review.")
+        return
 
     if len(sys.argv) < 2:
         print("Usage: code_review.py <diff_file> [filename_pattern]", file=sys.stderr)
@@ -157,6 +157,9 @@ def main():
         review = call_gemini_api(api_key, diff, filename)
         print(review)
     except httpx.HTTPStatusError as e:
+        if e.response.status_code == 429:
+            print("⚠️ Gemini API rate limit exceeded. Skipping AI review this time.")
+            return
         print(f"❌ Gemini API error: {e.response.status_code} {e.response.text}", file=sys.stderr)
         sys.exit(1)
     except httpx.RequestError as e:
