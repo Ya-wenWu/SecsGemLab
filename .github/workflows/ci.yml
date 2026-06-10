@@ -41,5 +41,5 @@ jobs:
         with:
           dotnet-version: 8.0
       - run: dotnet restore
-      - run: dotnet build --no-restore --warningsaserrors
+      - run: dotnet build --no-restore -warnaserror
       - run: dotnet test --no-build --verbosity normal
