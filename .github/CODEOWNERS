@@ -1,0 +1,7 @@
+# Default owner for all files
+* @Ya-wenWu
+
+# Security-sensitive files
+.github/workflows/ @Ya-wenWu
+.github/scripts/ @Ya-wenWu
+SECURITY.md @Ya-wenWu
