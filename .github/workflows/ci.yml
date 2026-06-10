@@ -6,7 +6,33 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret scan (git history)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dependency audit
+        run: |
+          dotnet restore
+          dotnet list package --vulnerable 2>&1 | tee /tmp/vuln.txt
+          if grep -qi "vulnerable" /tmp/vuln.txt; then
+            echo "⚠️ Vulnerable packages found"
+          else
+            echo "✅ No known vulnerabilities"
+          fi
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -15,5 +41,5 @@ jobs:
         with:
           dotnet-version: 8.0
       - run: dotnet restore
-      - run: dotnet build --no-restore
+      - run: dotnet build --no-restore --warningsaserrors
       - run: dotnet test --no-build --verbosity normal
