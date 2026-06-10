@@ -1,15 +1,56 @@
 # SecsGemLab
 
-SECS/GEM protocol learning lab on .NET — starting with the S1F13/S1F14 establish-communications handshake using `secs4net`.
+SECS/GEM protocol learning lab on .NET.
 
-## First Test
+Implements HSMS (High-Speed SECS Message Services) communication patterns using
+[Secs4Net](https://github.com/anonymous19840113/Secs4Net). Started with the
+S1F13/S1F14 establish-communications handshake.
 
-`HsmsConnectionTests.Host_EstablishesCommunication_WithEquipment`
+## Status
 
-Creates an in-memory HSMS connection between Host (Active) and Equipment (Passive), sends an Establish Communications Request (S1F13), verifies the Establish Communications Confirm reply (S1F14) with MDLN and SOFTREV.
+Early experiments — not production-ready. Contributions and experiments welcome.
+
+## Prerequisites
+
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+
+## Getting Started
+
+```bash
+git clone https://github.com/Ya-wenWu/SecsGemLab.git
+cd SecsGemLab
+dotnet build
+dotnet test
+```
+
+## Project Structure
+
+```
+SecsGemLab/
+├── src/
+│   └── SecsGemLab.Console/     # Console app (entry point)
+├── tests/
+│   └── SecsGemLab.Tests/       # xUnit tests
+├── specs/                       # SDD specs (requirements/design/tasks)
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml              # CI: build + test
+│   │   └── ai-code-review.yml  # AI-powered PR code review
+│   └── scripts/
+│       └── code_review.py      # Review script (Gemini API)
+└── docs/                        # Reference summaries
+```
 
 ## Tech Stack
 
-- .NET 8.0, C# 12, xUnit
-- secs4net v3.0.1 (NuGet: Secs4Net)
-- NSubstitute + System.Linq.Async
+| Component | Technology |
+|-----------|-----------|
+| Language | C# 12 |
+| Runtime | .NET 8.0 |
+| Protocol | SECS/GEM via Secs4Net |
+| Testing | xUnit + NSubstitute |
+| AI Review | Gemini 2.0 Flash |
+
+## License
+
+MIT

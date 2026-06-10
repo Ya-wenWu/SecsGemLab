@@ -1,5 +1,35 @@
+# .NET
 bin/
 obj/
 *.user
 *.suo
 .vs/
+*.DotSettings.user
+*.csproj.user
+*.dbmdl
+*.jfm
+
+# ASP.NET
+appsettings.*.local.json
+appsettings.*.Development.json
+secrets.json
+
+# Python (AI code review script)
+__pycache__/
+*.pyc
+.venv/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.log
+*.nupkg
+TestResults/
