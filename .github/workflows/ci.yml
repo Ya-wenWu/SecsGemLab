@@ -24,15 +24,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Dependency audit
+      - name: Vulnerability audit
         run: |
           dotnet restore
-          dotnet list package --vulnerable 2>&1 | tee /tmp/vuln.txt
-          if grep -qi "vulnerable" /tmp/vuln.txt; then
-            echo "⚠️ Vulnerable packages found"
-          else
-            echo "✅ No known vulnerabilities"
+          result=$(dotnet list package --vulnerable 2>&1)
+          echo "$result"
+          if echo "$result" | grep -qv "has no vulnerable"; then
+            if echo "$result" | grep -q "^[[:space:]]*>"; then
+              echo "⚠️ Vulnerable packages detected"
+              exit 1
+            fi
           fi
+          echo "✅ No known vulnerabilities"
 
   dependency-review:
     runs-on: ubuntu-latest
