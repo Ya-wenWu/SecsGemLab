@@ -1,0 +1,175 @@
+@page "/"
+@using SecsGemLab.Web.Models
+@inject HsmsSimulationService Sim
+
+<PageTitle>SECS/GEM Dashboard</PageTitle>
+
+<div class="dashboard">
+    <div class="header">
+        <h1>SECS/GEM Equipment Dashboard</h1>
+        <div class="header-actions">
+            @if (!Sim.Status.Connected)
+            {
+                <button class="btn btn-connect" @onclick="ConnectAsync">
+                    <span class="icon">&#9654;</span> Connect HSMS
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-disconnect" @onclick="DisconnectAsync">
+                    <span class="icon">&#9640;</span> Disconnect
+                </button>
+            }
+            <button class="btn btn-clear" @onclick="Sim.ClearMessages">
+                <span class="icon">&#128465;</span> Clear Log
+            </button>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card status-panel">
+            <h2>Equipment Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <span class="label">Connection</span>
+                    <span class="value @(Sim.Status.Connected ? "text-success" : "text-danger")">
+                        @(Sim.Status.Connected ? "Connected" : "Disconnected")
+                    </span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Mode</span>
+                    <span class="value">@Sim.Status.Mode</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Model</span>
+                    <span class="value">@Sim.Status.ModelName</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Software Rev</span>
+                    <span class="value">@Sim.Status.SoftwareRev</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Control State</span>
+                    <span class="value">@Sim.Status.ControlState</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Processing State</span>
+                    <span class="value">@Sim.Status.ProcessingState</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Messages</span>
+                    <span class="value">@Sim.Status.MessageCount</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Errors</span>
+                    <span class="value @(Sim.Status.ErrorCount > 0 ? "text-danger" : "")">@Sim.Status.ErrorCount</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card handshake-panel">
+            <h2>HSMS Handshake</h2>
+            <div class="handshake-diagram">
+                <div class="hsms-host">
+                    <div class="node-label">Host (Active)</div>
+                    <div class="node">🖥️</div>
+                </div>
+                <div class="hsms-arrows">
+                    @foreach (var msg in Sim.Messages.Where(m => m.Stream <= 2).Take(6).Reverse())
+                    {
+                        <div class="arrow-line @(msg.Direction == MessageDirection.Sent ? "right" : "left")">
+                            <span class="arrow-label">S@(msg.Stream)F@(msg.Function)</span>
+                            <span class="arrow-status @(msg.Status == MessageStatus.Error ? "error" : "ok")">
+                                @(msg.Status == MessageStatus.Error ? "✗" : "✓")
+                            </span>
+                        </div>
+                    }
+                </div>
+                <div class="hsms-equipment">
+                    <div class="node-label">Equipment (Passive)</div>
+                    <div class="node">🏭</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card message-panel">
+        <h2>Message Log</h2>
+        @if (Sim.Messages.Count == 0)
+        {
+            <div class="empty-state">No messages yet. Click "Connect HSMS" to start.</div>
+        }
+        <div class="message-list">
+            @foreach (var msg in Sim.Messages)
+            {
+                <div class="message-item @(msg.Direction == MessageDirection.Sent ? "sent" : "received") @(msg.Status == MessageStatus.Error ? "error" : "")">
+                    <div class="msg-header">
+                        <span class="msg-direction">
+                            @(msg.Direction == MessageDirection.Sent ? "→" : "←")
+                        </span>
+                        <span class="msg-name">@msg.Name</span>
+                        <span class="msg-sf">S@(msg.Stream)F@(msg.Function)</span>
+                        <span class="msg-time">@msg.Timestamp.ToLocalTime().ToString("HH:mm:ss.fff")</span>
+                        @if (msg.Status == MessageStatus.Error)
+                        {
+                            <span class="msg-error-badge">ERROR</span>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(msg.Data))
+                    {
+                        <pre class="msg-data">@msg.Data</pre>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="card send-panel">
+        <h2>Send Custom Message</h2>
+        <div class="send-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Stream</label>
+                    <input type="number" @bind="customStream" min="1" max="255" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label>Function</label>
+                    <input type="number" @bind="customFunc" min="1" max="255" class="form-input" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Data (SECS-II format)</label>
+                <textarea @bind="customData" class="form-input" rows="3" placeholder="&lt;L&gt;&#10;  &lt;A&gt;&quot;DATA&quot;&lt;/A&gt;&#10;&lt;/L&gt;"></textarea>
+            </div>
+            <button class="btn btn-send" @onclick="SendCustomAsync" disabled="@(!Sim.Status.Connected)">
+                <span class="icon">&#9654;</span> Send Message
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int customStream = 1;
+    private int customFunc = 15;
+    private string customData = "<L>\n  <A>\"HELLO\"</A>\n</L>";
+
+    protected override void OnInitialized()
+    {
+        Sim.OnStateChanged += (_, _) => StateHasChanged();
+    }
+
+    private async Task ConnectAsync()
+    {
+        await Sim.ConnectAsync();
+    }
+
+    private async Task DisconnectAsync()
+    {
+        await Sim.DisconnectAsync();
+    }
+
+    private async Task SendCustomAsync()
+    {
+        await Sim.SendCustomMessageAsync(customStream, customFunc, customData);
+    }
+}
