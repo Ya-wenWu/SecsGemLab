@@ -1,6 +1,6 @@
 namespace SecsGemLab.Web.Models;
 
-public class EquipmentStatus
+internal class EquipmentStatus
 {
     public bool Connected { get; set; }
     public string Mode { get; set; } = "Offline";

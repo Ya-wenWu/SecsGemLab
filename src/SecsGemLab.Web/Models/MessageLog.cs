@@ -1,19 +1,19 @@
 namespace SecsGemLab.Web.Models;
 
-public enum MessageDirection
+internal enum MessageDirection
 {
     Sent,
     Received
 }
 
-public enum MessageStatus
+internal enum MessageStatus
 {
     Success,
     Error,
     Pending
 }
 
-public class MessageLog
+internal class MessageLog
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public int Stream { get; set; }
