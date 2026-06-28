@@ -30,8 +30,6 @@ jobs:
         with:
           static_site_generator: dotnet
       - uses: actions/upload-pages-artifact@v3
-        with:
-          path: src/SecsGemLab.Web/bin/Release/net8.0/publish/wwwroot
 
   deploy:
     runs-on: ubuntu-latest
