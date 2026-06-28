@@ -13,7 +13,7 @@ internal enum MessageStatus
     Pending
 }
 
-internal class MessageLog
+internal sealed class MessageLog
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public int Stream { get; set; }
