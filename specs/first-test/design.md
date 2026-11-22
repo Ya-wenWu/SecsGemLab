@@ -23,5 +23,12 @@ Host (Active)           Equipment (Passive)
 ```
 
 ## 檔案
-- `tests/SecsGemLab.Tests/HsmsConnectionTests.cs`（新增）
+- `src/SecsGemLab.Console/Handshake/`：`EquipmentIdentity`、`HandshakeMessages`（S1F13/S1F14 建構與解析）、`HostSession`、`EquipmentResponder`、`HandshakeException`
+- `tests/SecsGemLab.Tests/HsmsConnectionTests.cs`：Host/Equipment 交握整合測試
+- `tests/SecsGemLab.Tests/HandshakeMessagesTests.cs`、`EquipmentIdentityTests.cs`：不需連線的單元測試
 - `tests/SecsGemLab.Tests/SecsGemLab.Tests.csproj`（NuGet 參考）
+
+## 已知偏差（待處理）
+- 需求要求 PipeConnection 記憶體內測試，目前整合測試仍走 127.0.0.1 的 TCP（HsmsConnection），只是改為執行時取得空閒埠。待確認 Secs4Net 3.0.1 的 PipeConnection API 後改寫。
+- S1F14 本文依本規格為 `L[MDLN, SOFTREV]`；SEMI E5 標準格式還有前置的 COMMACK 項目。
+- Console `Program.cs` 尚未接上 Host/Equipment 模式，因為需要實作 `ISecsGemLogger`。

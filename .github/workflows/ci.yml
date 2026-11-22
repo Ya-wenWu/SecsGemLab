@@ -11,9 +11,14 @@ permissions:
   pull-requests: read
   security-events: write
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   security:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,21 +29,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0
+
       - name: Vulnerability audit
         run: |
           dotnet restore
-          result=$(dotnet list package --vulnerable 2>&1)
-          echo "$result"
-          if echo "$result" | grep -qv "has no vulnerable"; then
-            if echo "$result" | grep -q "^[[:space:]]*>"; then
-              echo "⚠️ Vulnerable packages detected"
-              exit 1
-            fi
+          dotnet list package --vulnerable --include-transitive 2>&1 | tee audit.log
+          if grep -q "has the following vulnerable packages" audit.log; then
+            echo "Vulnerable packages detected"
+            exit 1
           fi
-          echo "✅ No known vulnerabilities"
+          echo "No known vulnerabilities"
 
   dependency-review:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     continue-on-error: true
     steps:
@@ -47,6 +54,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: security
     steps:
       - uses: actions/checkout@v4
@@ -55,4 +63,14 @@ jobs:
           dotnet-version: 8.0
       - run: dotnet restore
       - run: dotnet build --no-restore -warnaserror
-      - run: dotnet test --no-build --verbosity normal
+      - run: >
+          dotnet test --no-build --verbosity normal
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: TestResults/**/coverage.cobertura.xml
+          if-no-files-found: ignore
