@@ -11,6 +11,7 @@
 - 必須：失敗情境回對應的 S9Fx 或 ACK 碼，不得只丟例外或沉默
 - 絕不能：使用真實設備或對外網路連線
 - 絕不能：未對照 SEMI 標準就把訊息格式寫死；有疑義處記在對應 design.md 的「待確認」
+- 絕不能：宣稱符合 IEC 62443 或 SEMI E187（本專案沒有經過評估）
 
 ## 範圍
 | 階段 | 內容 |
@@ -20,6 +21,7 @@
 | P2 設備操作 | 配方管理（含大型配方）、Remote Control、Alarm、Clock、Terminal Service、Spooling |
 | P3 擴充 | 自定義 Stream/Function 四情境 |
 | P4 物料與工作 | E87、E40、E94 |
+| P5 資安 | 依 `summary-iec62443.md`：傳輸安全、來源限制、稽核、輸入限制、高風險訊息分級 |
 | 另案 | SECS-I（Secs4Net 不支援）、E84（非 SECS，需 I/O 模擬） |
 
 ## 驗收條件

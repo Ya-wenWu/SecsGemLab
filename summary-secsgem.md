@@ -253,3 +253,5 @@ S6F11 W
 | E84 | E84 | 未做（非 SECS，需 I/O 模擬） |
 
 實作順序與任務見 `specs/secsgem-roadmap/`。
+
+資安面（HSMS 無驗證與加密、IEC 62443、SEMI E187/E188）見 `summary-iec62443.md`。

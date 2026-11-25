@@ -39,6 +39,16 @@
 - [ ] T4.2 E40：Process Job 狀態模型、S16F5/F11/F15/F17
 - [ ] T4.3 E94：Control Job 狀態模型、S14F9、S16F27
 
+## P5 資安（依賴 P0；對應 IEC 62443，見 summary-iec62443.md）
+- [ ] T5.1 訊息大小與 List 巢狀深度上限，超過回 S9F11 並計數
+- [ ] T5.2 來源 IP 白名單與連線數上限（Passive 端）
+- [ ] T5.3 Primary 訊息稽核紀錄（時間、來源、S/F、結果；不寫配方內容）
+- [ ] T5.4 高風險 S/F 分級，非 `ONLINE REMOTE` 或未授權來源一律拒絕並稽核
+- [ ] T5.5 HSMS 傳輸層 TLS 雙向驗證（先確認 Secs4Net 能否接自訂串流）
+- [ ] T5.6 Directory.Packages.props 固定套件版本，移除分析器的 `*` 浮動版本
+- [ ] T5.7 CI 產生 SBOM；發佈物簽章
+- [ ] T5.8 威脅模型文件（以 summary-iec62443.md 第 5 節為起點）
+
 ## 另案
 - [ ] SECS-I：先評估第三方函式庫
 - [ ] E84：以 I/O 訊號模擬器實作 Active / Passive 與 TP / TD / TA 計時
