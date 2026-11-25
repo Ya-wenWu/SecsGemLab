@@ -3,7 +3,7 @@ using SecsGemLab.Web.Models;
 
 namespace SecsGemLab.Web.Services;
 
-internal class HsmsSimulationService
+internal sealed class HsmsSimulationService
 {
     public EquipmentStatus Status { get; } = new();
     public ObservableCollection<MessageLog> Messages { get; } = new();
