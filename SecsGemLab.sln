@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{744851C1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecsGemLab.Tests", "tests\SecsGemLab.Tests\SecsGemLab.Tests.csproj", "{57BAA735-AD1C-44A2-A18A-4411AEB936B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecsGemLab.Web", "src\SecsGemLab.Web\SecsGemLab.Web.csproj", "{8E786096-7185-4C3A-ADC8-ED5CBD253729}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +30,14 @@ Global
 		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57BAA735-AD1C-44A2-A18A-4411AEB936B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E786096-7185-4C3A-ADC8-ED5CBD253729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E786096-7185-4C3A-ADC8-ED5CBD253729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E786096-7185-4C3A-ADC8-ED5CBD253729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E786096-7185-4C3A-ADC8-ED5CBD253729}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3E89BA75-6DD0-44ED-938E-292772A31AAF} = {5CF4136B-6D3B-40B2-AE76-78987F544BC9}
 		{57BAA735-AD1C-44A2-A18A-4411AEB936B0} = {744851C1-58EF-43A2-87E4-AE074A66113A}
+		{8E786096-7185-4C3A-ADC8-ED5CBD253729} = {5CF4136B-6D3B-40B2-AE76-78987F544BC9}
 	EndGlobalSection
 EndGlobal

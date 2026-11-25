@@ -14,7 +14,7 @@ appsettings.*.local.json
 appsettings.*.Development.json
 secrets.json
 
-# Python (AI code review script)
+# Python (AI review script)
 __pycache__/
 *.pyc
 .venv/
@@ -24,12 +24,14 @@ __pycache__/
 *.swp
 *.swo
 *~
+.vscode/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Build artifacts
+# Build
 *.log
 *.nupkg
 TestResults/
+[Ll]ogs/
