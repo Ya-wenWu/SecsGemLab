@@ -1,6 +1,6 @@
 @page "/"
 @using SecsGemLab.Web.Models
-@inject HsmsSimulationService Sim
+@* @inject HsmsSimulationService Sim *@
 
 <PageTitle>SECS/GEM Dashboard</PageTitle>
 
@@ -152,6 +152,7 @@
     private int customStream = 1;
     private int customFunc = 15;
     private string customData = "<L>\n  <A>\"HELLO\"</A>\n</L>";
+    private static HsmsSimulationService Sim = new();
 
     protected override void OnInitialized()
     {
