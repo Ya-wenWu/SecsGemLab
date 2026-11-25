@@ -227,30 +227,33 @@ S6F11 W
 
 ## 本專案覆蓋進度
 
-| 課程主題 | 標準 | 狀態 |
-|---|---|---|
-| SML | E5 | 未做 |
-| HSMS Timeout | E37 | 部分（只有 T3 的逾時） |
-| Communication State Model | E30 | 部分（S1F13/S1F14 已做，無狀態機、無 COMMACK） |
-| Control State Model | E30 | 未做 |
-| Status Data Collection | E30 | 未做 |
-| Equipment Constants | E30 | 未做 |
-| 事件通知 / Define Report / Link | E30 | 未做 |
-| 配方管理 / 大型配方 | E5 S7 | 未做 |
-| Remote Control | E30 S2F41/49 | 未做 |
-| Alarm Management | E5 S5 | 未做 |
-| Trace Data Collection | E30 S2F23 / S6F1 | 未做 |
-| Limit Monitoring | E30 S2F45/47 | 未做 |
-| Spooling | E30 | 未做 |
-| Clock | E30 | 未做 |
-| Terminal Service | E5 S10 | 未做 |
-| 自定義 S/F 四情境 | E5 | 雛形（只計數未處理的訊息） |
-| S9Fx System Error | E5 | 未做 |
-| SECS-I | E4 | 未做（Secs4Net 不支援） |
-| E87 Carrier Management | E87 | 未做 |
-| E40 Process Job | E40 | 未做 |
-| E94 Control Job | E94 | 未做 |
-| E84 | E84 | 未做（非 SECS，需 I/O 模擬） |
+「業務邏輯」指狀態機與規則已實作並有測試；「訊息接線」指對應的 S-F 訊息建構、解析與 Handler。
+目前**只有 S1F13/S1F14 與 S9Fx 的建構有訊息層**，其餘都還沒接上線。
+
+| 課程主題 | 標準 | 業務邏輯 | 訊息接線 |
+|---|---|---|---|
+| SML | E5 | 未做 | 未做 |
+| HSMS Timeout | E37 | 計時器參數 | T3 逾時（握手）；T5~T8 未做 |
+| Communication State Model | E30 | 完成 | S1F13/S1F14 已做；缺 COMMACK |
+| Control State Model | E30 | 完成 | 未做 |
+| Status Data Collection | E30 | 未做 | 未做 |
+| Equipment Constants | E30 | 完成 | 未做 |
+| 事件通知 / Define Report / Link | E30 | 完成 | 未做 |
+| 配方管理 / 大型配方 | E5 S7 | 完成（容量上限） | 未做 |
+| Remote Control | E30 S2F41/49 | 判斷條件已備 | 未做 |
+| Alarm Management | E5 S5 | 完成 | 未做 |
+| Trace Data Collection | E30 S2F23 / S6F1 | 完成 | 未做 |
+| Limit Monitoring | E30 S2F45/47 | 完成 | 未做 |
+| Spooling | E30 | 完成 | 未做 |
+| Clock | E30 | 完成 | 未做 |
+| Terminal Service | E5 S10 | 未做 | 未做 |
+| 自定義 S/F 四情境 | E5 | 雛形（只計數未處理的訊息） | 未做 |
+| S9Fx System Error | E5 | — | 建構已做；未接入 Responder |
+| SECS-I | E4 | 未做（Secs4Net 不支援） | 未做 |
+| E87 Carrier Management | E87 | ID / Slot Map / Access | 未做 |
+| E40 Process Job | E40 | 完成 | 未做 |
+| E94 Control Job | E94 | 完成 | 未做 |
+| E84 | E84 | 未做（非 SECS，需 I/O 模擬） | — |
 
 實作順序與任務見 `specs/secsgem-roadmap/`。
 

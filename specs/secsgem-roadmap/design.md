@@ -18,6 +18,8 @@ EquipmentApp / HostApp          ← 組合各能力
 
 延續現有 `Handshake/` 的做法：訊息類別是靜態純函式、行為類別接收 `SecsGem`。
 
+**目前實況：** 業務邏輯（狀態機與規則）放在平面的 `Gem/` 資料夾，刻意不依賴 Secs4Net，所以可以在沒有真實連線時單元測試。訊息層與 Handler 尚未接上，之後再依上圖整理成 `Capabilities/<Name>/`。
+
 ## 資安層（P5，詳見 summary-iec62443.md）
 ```
 Transport:  TCP ─► [TLS 雙向驗證] ─► HSMS          ← FR 3、4

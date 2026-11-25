@@ -20,8 +20,8 @@ public class EquipmentIdentityTests
     {
         var tooLong = new string('A', EquipmentIdentity.MaxLength + 1);
 
-        Assert.ThrowsAny<ArgumentException>(() => new EquipmentIdentity(tooLong, "1.0"));
-        Assert.ThrowsAny<ArgumentException>(() => new EquipmentIdentity("MDLN", tooLong));
+        Assert.ThrowsAny<ArgumentException>(() => _ = new EquipmentIdentity(tooLong, "1.0"));
+        Assert.ThrowsAny<ArgumentException>(() => _ = new EquipmentIdentity("MDLN", tooLong));
     }
 
     [Theory]
@@ -29,14 +29,14 @@ public class EquipmentIdentityTests
     [InlineData("   ")]
     public void Constructor_RejectsBlankValues(string blank)
     {
-        Assert.ThrowsAny<ArgumentException>(() => new EquipmentIdentity(blank, "1.0"));
-        Assert.ThrowsAny<ArgumentException>(() => new EquipmentIdentity("MDLN", blank));
+        Assert.ThrowsAny<ArgumentException>(() => _ = new EquipmentIdentity(blank, "1.0"));
+        Assert.ThrowsAny<ArgumentException>(() => _ = new EquipmentIdentity("MDLN", blank));
     }
 
     [Fact]
     public void Constructor_RejectsNonAsciiValues()
     {
-        Assert.ThrowsAny<ArgumentException>(() => new EquipmentIdentity("設備", "1.0"));
+        Assert.ThrowsAny<ArgumentException>(() => _ = new EquipmentIdentity("設備", "1.0"));
     }
 
     [Fact]

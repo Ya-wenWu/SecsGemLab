@@ -3,7 +3,7 @@ namespace SecsGemLab.Handshake;
 /// <summary>
 /// Raised when the S1F13/S1F14 exchange fails or the reply is malformed.
 /// </summary>
-internal sealed class HandshakeException : Exception
+public sealed class HandshakeException : Exception
 {
     public HandshakeException()
     {
