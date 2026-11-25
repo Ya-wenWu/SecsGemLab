@@ -9,9 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="Secs4Net" Version="3.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="SecsGemLab.Tests" />
   </ItemGroup>
 
