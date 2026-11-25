@@ -42,8 +42,8 @@ jobs:
     if: github.event_name == 'pull_request'
     continue-on-error: true
     steps:
+      - uses: actions/dependency-review-action@v5
       - uses: actions/checkout@v7
-      - uses: actions/dependency-review-action@v4
 
   test:
     runs-on: ubuntu-latest
