@@ -29,7 +29,7 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           static_site_generator: dotnet
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
 
   deploy:
     runs-on: ubuntu-latest
