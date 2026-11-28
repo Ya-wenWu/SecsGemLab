@@ -4,7 +4,7 @@ using static Secs4Net.Item;
 namespace SecsGemLab.Gem;
 
 /// <summary>Functions of Stream 9 whose body is the 10-byte header of the rejected message.</summary>
-internal enum SystemErrorFunction
+internal enum SystemErrorFunction : byte
 {
     UnrecognizedDeviceId = 1,
     UnrecognizedStreamType = 3,
@@ -37,7 +37,7 @@ internal static class SystemErrorMessages
             throw new ArgumentException("The message header must be exactly 10 bytes.", nameof(messageHeader));
         }
 
-        return new SecsMessage(s: Stream, f: (int)function, replyExpected: false)
+        return new SecsMessage(s: Stream, f: (byte)function, replyExpected: false)
         {
             Name = $"S9F{(int)function}",
             SecsItem = B(messageHeader.ToArray()),

@@ -34,7 +34,8 @@ internal sealed class EquipmentResponder
             {
                 if (HandshakeMessages.IsRequest(primary.PrimaryMessage))
                 {
-                    await primary.TryReplyAsync(HandshakeMessages.CreateConfirm(_identity)).ConfigureAwait(false);
+                    using var confirm = HandshakeMessages.CreateConfirm(_identity);
+                    await primary.TryReplyAsync(confirm, cancellationToken).ConfigureAwait(false);
                 }
                 else
                 {

@@ -38,8 +38,9 @@ internal sealed class HostSession
 
         try
         {
-            var reply = await _secsGem
-                .SendAsync(HandshakeMessages.CreateRequest(), timeoutSource.Token)
+            using var request = HandshakeMessages.CreateRequest();
+            using var reply = await _secsGem
+                .SendAsync(request, timeoutSource.Token)
                 .ConfigureAwait(false);
 
             return HandshakeMessages.ParseConfirm(reply);
