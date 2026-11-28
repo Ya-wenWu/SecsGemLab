@@ -26,7 +26,7 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Publish Blazor WASM
         run: dotnet publish src/SecsGemLab.Web/SecsGemLab.Web.csproj -c Release
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
         with:
           static_site_generator: dotnet
       - uses: actions/upload-pages-artifact@v3
