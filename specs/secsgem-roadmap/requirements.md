@@ -1,31 +1,31 @@
-# 需求：SECS/GEM 領域能力路線圖
+# Requirements: SECS/GEM capability roadmap
 
-## 目的
-讓本專案涵蓋 SEMI SECS/GEM 培訓課程（4 天）的全部主題，領域知識見 `summary-secsgem.md`。
-每個主題都要能以 Host（EAP）與 Equipment（EQP）兩端在同一個測試中互相驗證。
+## Purpose
+Cover every topic of the SEMI SECS/GEM training course (4 days) in this project. The domain knowledge is in `summary-secsgem.md`.
+Each topic must be verifiable with both a Host (EAP) and an Equipment (EQP) side in the same test.
 
-## 能力
-- 必須：每個能力同時有 EQP 端與 EAP 端實作，並以整合測試證明兩端可互通
-- 必須：訊息建構與解析與傳輸分離，可不連線就做單元測試（延續 `HandshakeMessages` 的做法）
-- 必須：訊息內容以 SML 輸出，方便 log 與除錯
-- 必須：失敗情境回對應的 S9Fx 或 ACK 碼，不得只丟例外或沉默
-- 絕不能：使用真實設備或對外網路連線
-- 絕不能：未對照 SEMI 標準就把訊息格式寫死；有疑義處記在對應 design.md 的「待確認」
-- 絕不能：宣稱符合 IEC 62443 或 SEMI E187（本專案沒有經過評估）
+## Capabilities
+- Must: every capability has both an EQP side and an EAP side, proven to interoperate by an integration test
+- Must: message building and parsing are separate from transport, so they can be unit tested without a connection (as `HandshakeMessages` already does)
+- Must: message content can be printed as SML for logs and debugging
+- Must: failure cases answer with the matching S9Fx or ACK code, not only an exception or silence
+- Must never: use real equipment or an outside network connection
+- Must never: hard-code a message format without checking the SEMI standard; record doubts under "To confirm" in the matching design.md
+- Must never: claim compliance with IEC 62443 or SEMI E187 (this project has not been assessed)
 
-## 範圍
-| 階段 | 內容 |
+## Scope
+| Phase | Content |
 |---|---|
-| P0 基礎 | SML 輸出、S9Fx、HSMS Timeout、Communication State、Control State |
-| P1 資料收集 | SV、EC、Collection Event、Define Report / Link、Trace、Limit Monitoring |
-| P2 設備操作 | 配方管理（含大型配方）、Remote Control、Alarm、Clock、Terminal Service、Spooling |
-| P3 擴充 | 自定義 Stream/Function 四情境 |
-| P4 物料與工作 | E87、E40、E94 |
-| P5 資安 | 依 `summary-iec62443.md`：傳輸安全、來源限制、稽核、輸入限制、高風險訊息分級 |
-| 另案 | SECS-I（Secs4Net 不支援）、E84（非 SECS，需 I/O 模擬） |
+| P0 Foundation | SML output, S9Fx, HSMS timeouts, communication state, control state |
+| P1 Data collection | SV, EC, collection events, define report / link, trace, limit monitoring |
+| P2 Equipment operation | Recipe management (including large recipes), remote control, alarms, clock, terminal service, spooling |
+| P3 Extension | The four custom Stream/Function scenarios |
+| P4 Material and jobs | E87, E40, E94 |
+| P5 Security | Per `summary-iec62443.md`: transport security, source restriction, audit, input limits, risk tiers for messages |
+| Separate | SECS-I (not supported by Secs4Net), E84 (not SECS; needs I/O simulation) |
 
-## 驗收條件
-- [ ] 每個階段都有獨立的 `specs/<name>/` 三份文件
-- [ ] 每個能力至少一個正常流程與一個失敗流程的整合測試
-- [ ] `dotnet build -warnaserror` 與 `dotnet test` 通過
-- [ ] `summary-secsgem.md` 的「覆蓋進度」表隨實作更新
+## Acceptance criteria
+- [ ] Each phase has its own `specs/<name>/` with the three documents
+- [ ] Each capability has at least one normal-flow and one failure-flow integration test
+- [ ] `dotnet build -warnaserror` and `dotnet test` pass
+- [ ] The coverage table in `summary-secsgem.md` is updated as work lands

@@ -29,13 +29,12 @@
 - [x] design.md（技術架構/測試流程）
 - [x] tasks.md（有序實作步驟）
 
-### T5: 抽出交握實作並補強（依賴：T2）
-**檔案：** `src/SecsGemLab.Console/Handshake/`、`tests/SecsGemLab.Tests/`、`.github/workflows/ci.yml`
-- [x] EquipmentIdentity（MDLN/SOFTREV 驗證）、HandshakeMessages、HostSession、EquipmentResponder
-- [x] 測試改為有逾時上限、不吞掉背景工作的例外、不寫死連接埠
-- [x] 補邊界情況單元測試與整合測試
-- [x] CI：修正弱點掃描判斷、加入 concurrency、逾時與覆蓋率輸出
-- [ ] 在可還原 NuGet 的環境執行 `dotnet build`、`dotnet test` 確認通過
-- [ ] 改用 PipeConnection 記憶體內連線
-- [ ] Console 接上 Host/Equipment 模式
-
+### T5: Extract the handshake and harden it (depends on T2)
+**Files:** `src/SecsGemLab.Console/Handshake/`, `tests/SecsGemLab.Tests/`, `.github/workflows/ci.yml`
+- [x] EquipmentIdentity (MDLN/SOFTREV validation), HandshakeMessages, HostSession, EquipmentResponder
+- [x] Tests with a time limit, no swallowed background exceptions, no hard-coded port
+- [x] Unit tests and integration tests for the edge cases
+- [x] CI: fix the vulnerability scan check, add concurrency, timeouts and coverage output
+- [x] Run `dotnet build` and `dotnet test` in an environment that can restore NuGet (done by the pull request CI)
+- [ ] Switch to in-memory PipeConnection
+- [ ] Wire the Console to a Host/Equipment mode

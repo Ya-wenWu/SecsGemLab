@@ -1,49 +1,49 @@
-# 設計：SECS/GEM 領域能力路線圖
+# Design: SECS/GEM capability roadmap
 
-## 架構邊界
-- 擁有：GEM 狀態機、各能力的 EQP / EAP 實作、訊息建構與解析
-- 委派給：Secs4Net（HSMS 傳輸與 SECS-II 資料項）
-- 不負責：真實設備、SECS-I 序列通訊、E84 的實體 I/O
+## Architecture boundary
+- Owns: GEM state machines, the EQP and EAP side of each capability, message building and parsing
+- Delegates to: Secs4Net (HSMS transport and SECS-II data items)
+- Not responsible for: real equipment, SECS-I serial communication, the physical I/O of E84
 
-## 分層
+## Layers
 
 ```
-EquipmentApp / HostApp          ← 組合各能力
-  ├─ Capabilities/<Name>/       ← 每個能力一個資料夾
-  │    ├─ <Name>Messages        ← 建構與解析（純函式，可單元測試）
-  │    ├─ <Name>Equipment       ← EQP 端行為
-  │    └─ <Name>Host            ← EAP 端行為
-  └─ Core/                      ← 狀態機、ID 登錄（SVID/ECID/CEID/RPTID/ALID）、SML 格式化
+EquipmentApp / HostApp          <- composes the capabilities
+  +- Capabilities/<Name>/       <- one folder per capability
+  |    +- <Name>Messages        <- building and parsing (pure functions, unit-testable)
+  |    +- <Name>Equipment       <- EQP side behavior
+  |    +- <Name>Host            <- EAP side behavior
+  +- Core/                      <- state machines, ID registries (SVID/ECID/CEID/RPTID/ALID), SML formatter
 ```
 
-延續現有 `Handshake/` 的做法：訊息類別是靜態純函式、行為類別接收 `SecsGem`。
+Same approach as the existing `Handshake/`: message classes are static pure functions, behavior classes take a `SecsGem`.
 
-**目前實況：** 業務邏輯（狀態機與規則）放在平面的 `Gem/` 資料夾，刻意不依賴 Secs4Net，所以可以在沒有真實連線時單元測試。訊息層與 Handler 尚未接上，之後再依上圖整理成 `Capabilities/<Name>/`。
+**Current state:** the business logic (state machines and rules) sits in a flat `Gem/` folder and deliberately does not depend on Secs4Net, so it can be unit tested without a real connection. The message layer and handlers are not wired yet. They will be organized into `Capabilities/<Name>/` as shown above.
 
-## 資安層（P5，詳見 summary-iec62443.md）
+## Security layer (P5, see summary-iec62443.md)
 ```
-Transport:  TCP ─► [TLS 雙向驗證] ─► HSMS          ← FR 3、4
-Admission:  來源 IP 白名單、連線數上限             ← FR 1、5、7
-Dispatch:   訊息大小 / List 深度上限 → 風險分級 → Handler   ← FR 2、7
-Audit:      每則 Primary 訊息一筆紀錄（不含配方內容）      ← FR 6
+Transport:  TCP -> [mutual TLS] -> HSMS                          <- FR 3, 4
+Admission:  source IP allow-list, connection limit               <- FR 1, 5, 7
+Dispatch:   size / list-depth limits -> risk tier -> handler     <- FR 2, 7
+Audit:      one record per primary message (no recipe content)   <- FR 6
 ```
-高風險訊息（S2F15、S2F31、S2F41、S2F49、S7F3、S7F17、S10F3）僅在 `ONLINE REMOTE` 且來源已授權時處理。
+High-risk messages (S2F15, S2F31, S2F41, S2F49, S7F3, S7F17, S10F3) are handled only in `ONLINE REMOTE` and from an authorized source.
 
-## 相依順序
+## Dependency order
 ```
-SML ─┬─ S9Fx ─┬─ Communication State ─ Control State ─┬─ SV / EC
-     │        │                                       ├─ Collection Event → Report → Link → Trace / Limit
-     │        │                                       ├─ Remote Control / Alarm / Clock / Terminal
-     │        │                                       ├─ 配方管理
-     │        │                                       └─ Spooling（需先有事件與主動訊息）
-     └────────┴─ 自定義 S/F
-E87 ─ E40 ─ E94（需先有事件、Remote Control、配方）
+SML -+- S9Fx -+- Communication state - Control state -+- SV / EC
+     |        |                                       +- Collection event -> Report -> Link -> Trace / Limit
+     |        |                                       +- Remote control / Alarm / Clock / Terminal
+     |        |                                       +- Recipe management
+     |        |                                       +- Spooling (needs events and unsolicited messages first)
+     +--------+- Custom S/F
+E87 - E40 - E94 (need events, remote control and recipes first)
 ```
 
-## 待確認（需對照 SEMI 標準）
-- S1F14 是否加入 COMMACK（現行規格沒有）
-- 使用者自定義 Stream / Function 的可用範圍（E5）
-- E84 的 TA 計時器定義與預設值
-- Secs4Net 3.0.1 的 `PipeConnection` API（現行測試仍走 TCP）
-- Secs4Net 是否允許自訂底層串流（以便套 `SslStream`），否則需前置 TLS 終結
-- 七項 FR 與 CR 編號對應（summary-iec62443.md 第 3、5 節為凭記憶整理）
+## To confirm (check against the SEMI standards)
+- Whether S1F14 should gain a COMMACK item (the current spec has none)
+- The range of Stream / Function numbers available for user definition (E5)
+- The definition and defaults of the E84 TA timers
+- The `PipeConnection` API in Secs4Net 3.0.1 (the integration test still uses TCP)
+- Whether Secs4Net allows a custom underlying stream (to wrap it in `SslStream`); otherwise a TLS-terminating front end is needed
+- The mapping of the seven FRs and the CR numbers (sections 3 and 5 of summary-iec62443.md are from memory)
