@@ -22,6 +22,13 @@ Host (Active)           Equipment (Passive)
     │                         │
 ```
 
-## 檔案
-- `tests/SecsGemLab.Tests/HsmsConnectionTests.cs`（新增）
-- `tests/SecsGemLab.Tests/SecsGemLab.Tests.csproj`（NuGet 參考）
+## Files
+- `src/SecsGemLab.Console/Handshake/`: `EquipmentIdentity`, `HandshakeMessages` (build and parse S1F13/S1F14), `HostSession`, `EquipmentResponder`, `HandshakeException`
+- `tests/SecsGemLab.Tests/HsmsConnectionTests.cs`: Host/Equipment handshake integration test
+- `tests/SecsGemLab.Tests/HandshakeMessagesTests.cs`, `EquipmentIdentityTests.cs`: unit tests that need no connection
+- `tests/SecsGemLab.Tests/SecsGemLab.Tests.csproj` (NuGet references)
+
+## Known deviations (to do)
+- The requirements ask for an in-memory test with PipeConnection. The integration test still uses TCP on 127.0.0.1 (HsmsConnection), only with a free port chosen at run time. Rewrite it once the Secs4Net 3.0.1 PipeConnection API is confirmed.
+- The S1F14 body in this spec is `L[MDLN, SOFTREV]`. The SEMI E5 format also has a leading COMMACK item.
+- Console `Program.cs` is not yet wired to a Host/Equipment mode because that needs an `ISecsGemLogger` implementation.

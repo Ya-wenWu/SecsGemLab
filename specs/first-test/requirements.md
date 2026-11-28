@@ -17,3 +17,10 @@
 - [ ] Equipment 回應 S1F14 含 MDLN 與 SOFTREV
 - [ ] Host 收到 S1F14 並能讀取 MDLN 與 SOFTREV 值
 - [ ] 整個交握在 10 秒內完成
+
+## Edge cases
+- S1F14 missing (the equipment does not reply): the host throws `TimeoutException` after the timeout and never waits forever
+- S1F14 malformed (wrong Stream/Function, item count is not 2, MDLN/SOFTREV empty or non-ASCII): the host throws `HandshakeException`
+- MDLN and SOFTREV are at most 20 ASCII characters (SEMI E5); a longer or blank value makes `EquipmentIdentity` construction fail
+- The equipment receives a message other than S1F13: it does not reply and only counts it in `UnhandledMessageCount`
+- The port used by the tests is a free port picked at run time and is never hard-coded

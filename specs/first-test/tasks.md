@@ -28,3 +28,13 @@
 - [x] requirements.md（需求/驗收條件/邊界情況）
 - [x] design.md（技術架構/測試流程）
 - [x] tasks.md（有序實作步驟）
+
+### T5: Extract the handshake and harden it (depends on T2)
+**Files:** `src/SecsGemLab.Console/Handshake/`, `tests/SecsGemLab.Tests/`, `.github/workflows/ci.yml`
+- [x] EquipmentIdentity (MDLN/SOFTREV validation), HandshakeMessages, HostSession, EquipmentResponder
+- [x] Tests with a time limit, no swallowed background exceptions, no hard-coded port
+- [x] Unit tests and integration tests for the edge cases
+- [x] CI: fix the vulnerability scan check, add concurrency, timeouts and coverage output
+- [x] Run `dotnet build` and `dotnet test` in an environment that can restore NuGet (done by the pull request CI)
+- [ ] Switch to in-memory PipeConnection
+- [ ] Wire the Console to a Host/Equipment mode
